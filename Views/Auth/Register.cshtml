@@ -1,0 +1,44 @@
+@model ReservasSalas.Models.Usuario
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h2>Registro</h2>
+<form method="post">
+    <label>Nombre</label>
+    <input asp-for="Nombre" />
+
+    <label>Email</label>
+    <input asp-for="Mail" />
+
+    <label>Portal</label>
+    <select asp-for="Portal">
+        @for (int i = 1; i <= 9; i++)
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+
+    <label>Piso</label>
+    <select asp-for="Piso">
+        <option value="B">Bajo</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+
+    <label>Letra</label>
+    <select asp-for="Letra">
+        <option>a</option>
+        <option>b</option>
+        <option>c</option>
+        <option>d</option>
+    </select>
+
+    <label>Password</label>
+    <input type="password" name="password" required />
+
+    <button type="submit">Registrarse</button>
+</form>
