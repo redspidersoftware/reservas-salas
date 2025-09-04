@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Calendario";
+    var hoy = DateTime.Now;
+    var mes = hoy.Month;
+    var anio = hoy.Year;
+    var diasEnMes = DateTime.DaysInMonth(anio, mes);
+}
+
+<h2>Calendario de Reservas - @hoy.ToString("MMMM yyyy")</h2>
+
+<div id="calendario" style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;">
+    @for (int dia = 1; dia <= diasEnMes; dia++)
+    {
+        <div id="dia-@dia" style="padding:10px;border:1px solid #ccc;text-align:center;">
+            @dia
+        </div>
+    }
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch(`/reservas?mes=@anio-@mes`);
+        const data = await response.json();
+        data.reservas.forEach(fecha => {
+            let dia = new Date(fecha).getDate();
+            let celda = document.getElementById(`dia-${dia}`);
+            if (celda) {
+                celda.style.backgroundColor = "red";
+                celda.style.color = "white";
+            }
+        });
+    });
+</script>
