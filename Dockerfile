@@ -1,22 +1,18 @@
-# Imagen oficial de .NET 8 SDK para compilar
+# Etapa de build con .NET 8 SDK
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /src
 
 # Copiar csproj y restaurar dependencias
-COPY *.sln .
 COPY ReservasSalas/*.csproj ./ReservasSalas/
-RUN dotnet restore
+RUN dotnet restore ReservasSalas/ReservasSalas.csproj
 
-# Copiar el resto del código
+# Copiar todo el código y compilar
 COPY . .
+WORKDIR /src/ReservasSalas
+RUN dotnet publish -c Release -o /app/out
 
-# Publicar en modo Release
-RUN dotnet publish -c Release -o out
-
-# Imagen ligera de runtime para ejecutar
+# Etapa de runtime más ligera
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/ReservasSalas/out .
-
-# Arrancar la app
+COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "ReservasSalas.dll"]
