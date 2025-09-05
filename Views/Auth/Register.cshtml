@@ -1,44 +1,90 @@
 @model ReservasSalas.Models.Usuario
-
 @{
     ViewData["Title"] = "Registro";
 }
 
-<h2>Registro</h2>
-<form method="post">
-    <label>Nombre</label>
-    <input asp-for="Nombre" />
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center mb-4">Crear Cuenta</h2>
 
-    <label>Email</label>
-    <input asp-for="Mail" />
-
-    <label>Portal</label>
-    <select asp-for="Portal">
-        @for (int i = 1; i <= 9; i++)
+        @* Mensajes de TempData *@
+        @if (TempData["Mensaje"] != null)
         {
-            <option value="@i">@i</option>
+            <div class="alert alert-success">
+                @TempData["Mensaje"] <br />
+                📧 Revisa tu correo para confirmar tu cuenta.
+            </div>
         }
-    </select>
 
-    <label>Piso</label>
-    <select asp-for="Piso">
-        <option value="B">Bajo</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-    </select>
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
 
-    <label>Letra</label>
-    <select asp-for="Letra">
-        <option>a</option>
-        <option>b</option>
-        <option>c</option>
-        <option>d</option>
-    </select>
+        <form asp-action="Register" method="post">
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
 
-    <label>Password</label>
-    <input type="password" name="password" required />
+            <div class="mb-3">
+                <label asp-for="Mail" class="form-label"></label>
+                <input asp-for="Mail" class="form-control" />
+                <span asp-validation-for="Mail" class="text-danger"></span>
+            </div>
 
-    <button type="submit">Registrarse</button>
-</form>
+            <div class="mb-3">
+                <label asp-for="Portal" class="form-label"></label>
+                <select asp-for="Portal" class="form-select">
+                    <option value="">Selecciona...</option>
+                    @for (int i = 1; i <= 9; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span asp-validation-for="Portal" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Piso" class="form-label"></label>
+                <select asp-for="Piso" class="form-select">
+                    <option value="">Selecciona...</option>
+                    <option value="B">B</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <span asp-validation-for="Piso" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Letra" class="form-label"></label>
+                <select asp-for="Letra" class="form-select">
+                    <option value="">Selecciona...</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+                <span asp-validation-for="Letra" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" id="password" name="password" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Registrarse</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a asp-action="Login" asp-controller="Auth">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

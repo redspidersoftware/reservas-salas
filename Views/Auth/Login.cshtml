@@ -2,15 +2,36 @@
     ViewData["Title"] = "Login";
 }
 
-<h2>Login</h2>
-<form method="post">
-    <label>Email</label>
-    <input type="email" name="mail" required />
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h2 class="text-center mb-4">Iniciar Sesión</h2>
 
-    <label>Password</label>
-    <input type="password" name="password" required />
+        @if (TempData["Mensaje"] != null)
+        {
+            <div class="alert alert-success">@TempData["Mensaje"]</div>
+        }
 
-    <button type="submit">Entrar</button>
-</form>
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
 
-<p>¿No tienes cuenta? <a href="/Auth/Register">Regístrate aquí</a></p>
+        <form asp-action="Login" method="post">
+            <div class="mb-3">
+                <label for="mail" class="form-label">Correo</label>
+                <input type="email" class="form-control" id="mail" name="mail" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a asp-action="Register" asp-controller="Auth">¿No tienes cuenta? Regístrate</a>
+        </div>
+    </div>
+</div>

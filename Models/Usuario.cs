@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReservasSalas.Models
 {
@@ -18,7 +19,8 @@ namespace ReservasSalas.Models
         public int Portal { get; set; }
 
         [Required]
-        public string Piso { get; set; } = string.Empty; // "B", "1", "2", "3", "4"
+        [RegularExpression("^[B1-4]$", ErrorMessage = "Piso debe ser B, 1, 2, 3 o 4")]
+        public string Piso { get; set; } = string.Empty;
 
         [Required]
         [RegularExpression("^[a-dA-D]$", ErrorMessage = "Letra debe ser a, b, c o d")]
@@ -28,6 +30,6 @@ namespace ReservasSalas.Models
         public string PasswordHash { get; set; } = string.Empty;
 
         public bool Confirmado { get; set; } = false;
-        public string TokenConfirmacion { get; set; } = Guid.NewGuid().ToString();
+        public string? TokenConfirmacion { get; set; } = Guid.NewGuid().ToString();
     }
 }

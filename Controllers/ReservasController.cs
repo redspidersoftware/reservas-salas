@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ReservasSalas.Data;
 using Microsoft.EntityFrameworkCore;
+using ReservasSalas.Filters;
 
 namespace ReservasSalas.Controllers
 {
     [Route("reservas")]
     [ApiController]
+    [AuthorizeUser] 
     public class ReservasController : ControllerBase
     {
         private readonly AppDbContext _context;
